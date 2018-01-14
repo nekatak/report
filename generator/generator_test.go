@@ -43,6 +43,10 @@ func TestGenerator(t *testing.T) {
 			// check that file is found
 			_, errFileNotFound := os.Stat("./report.pdf")
 			So(errFileNotFound, ShouldBeNil)
+
+			// remove report pdf before next tests
+			err = os.Remove("./report.pdf")
+			So(err, ShouldBeNil)
 		})
 
 	})
