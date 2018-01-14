@@ -5,30 +5,30 @@ package generator
 import (
 	"encoding/xml"
 	"fmt"
-	"log"
 	"io/ioutil"
+	"log"
 
 	"github.com/signintech/gopdf"
 )
 
 // SingleInventory is responsible to unpack each obj inside inventory
 type SingleInventory struct {
-	Name   string	`json:name`
-	Price  string	`json:price`
+	Name  string `json:name`
+	Price string `json:price`
 }
 
 // Data is the struct to unpack the data from postgres
 type Data struct {
-	Organization  string      		`json:organization`
-	Reported_at   string      		`json:reported_at`
-	Created_at    string      		`json:created_at`
-	Inventory     [] SingleInventory 	`json:inventory`
+	Organization string            `json:organization`
+	Reported_at  string            `json:reported_at`
+	Created_at   string            `json:created_at`
+	Inventory    []SingleInventory `json:inventory`
 }
 
 // GenerateXML is responsible to convert Data retrieved from postgres
 // to the proper xml format
-func (d Data) GenerateXML() (output []byte, err error){
-	output, err = xml.MarshalIndent(d, "report", "    ")
+func (d Data) GenerateXML() (output []byte, err error) {
+	output, err = xml.MarshalIndent(d, "", "    ")
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}
@@ -42,10 +42,9 @@ func (d Data) GenerateXML() (output []byte, err error){
 // there is no check for limits of page
 // given that data are 5-6 lines each time
 // TODO: add check for values that could overflow the file
-// TODO: return bytes (after checking the format of file)
 func (d Data) GeneratePDF() (file []byte, err error) {
 	pdf := gopdf.GoPdf{}
-	pdf.Start(gopdf.Config{ PageSize: gopdf.Rect{W: 595.28, H: 841.89}}) // A4 paper dimensions
+	pdf.Start(gopdf.Config{PageSize: gopdf.Rect{W: 595.28, H: 841.89}}) // A4 paper dimensions
 	pdf.AddPage()
 	err = pdf.AddTTFFont("loma", "./Loma.ttf")
 	if err != nil {
@@ -82,7 +81,7 @@ func (d Data) GeneratePDF() (file []byte, err error) {
 	y := 200.0
 	for _, obj := range d.Inventory {
 		formattedVal := fmt.Sprintf("%s: %s", obj.Name, obj.Price)
-		pdf.Cell(nil, formattedVal)  // print name: value for each in inventory
+		pdf.Cell(nil, formattedVal) // print name: value for each in inventory
 		y += 15
 		pdf.SetY(y)
 	}

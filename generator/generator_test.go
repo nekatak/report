@@ -1,27 +1,27 @@
 package generator
 
 import (
-	"os"
 	"fmt"
+	. "github.com/smartystreets/goconvey/convey"
+	"os"
 	"strings"
 	"testing"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestGenerator(t *testing.T) {
 	Convey("test for specific data you can generate successfully XML and PDF", t, func() {
 		si := SingleInventory{
-			Name: "printer",
+			Name:  "printer",
 			Price: "97",
 		}
 		var testData = Data{
 			Organization: "Fake",
-			Reported_at: "2019",
-			Created_at: "2019",
-			Inventory: []SingleInventory{si},
+			Reported_at:  "2019",
+			Created_at:   "2019",
+			Inventory:    []SingleInventory{si},
 		}
 
-		Convey("Check first XML....", func(){
+		Convey("Check first XML....", func() {
 			xmlBytes, err := testData.GenerateXML()
 			s := string(xmlBytes[:])
 			fmt.Println(s)
