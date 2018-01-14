@@ -43,7 +43,7 @@ type ClientInterface interface {
 }
 
 //// Setting both clients to fill interface
-//var _ ClientInterface = &Client{}
+var _ ClientInterface = &Client{}
 //var _ ClientInterface = &MockClient{}
 
 // Connect to the psql db and return client with sql.DB in it

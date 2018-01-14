@@ -2,10 +2,11 @@ package generator
 
 import (
 	"fmt"
-	. "github.com/smartystreets/goconvey/convey"
 	"os"
 	"strings"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestGenerator(t *testing.T) {
